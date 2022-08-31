@@ -1,0 +1,27 @@
+.todoLabel{
+  display: flex;
+  
+}
+
+.eachItem{
+  display: flex;
+}
+.inputData{
+  width: 20%;
+}
+.showTodo{
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+}
+
+
+.eachItem{
+  display: inline;
+
+}
+
+.inputTodo{
+  width: 200px;
+  height: 30px;
+}
