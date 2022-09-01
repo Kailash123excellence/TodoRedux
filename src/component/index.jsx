@@ -1,92 +1,108 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeTodoItem,
   addTodo,
   deleteTodo,
   editTodo,
+  updateTodo,
 } from "../redux/action/index";
 
 export default function TodoComponent() {
-  // const [editable, setEditable] = useState(null);
-
+  const [editable, setEditable] = useState("");
   const dispatch = useDispatch();
   const {
-    todoReducers: { text, todoList, editable },
+    todoReducers: { text, todoList, isEdit, editTodo },
   } = useSelector((state) => state);
 
-  const handleAddTodo = (e) => {
-    e.preventDefault()
+  const handleAddTodo = (e, id) => {
+    e.preventDefault();
     dispatch(addTodo({ id: Math.random(), text }));
     dispatch(changeTodoItem({ text: "" }));
+    setEditable(false);
   };
 
-  const handleEdit = (id, text) => {
+  const handleEdit = (id, text, e) => {
+    setEditable(id);
     dispatch(changeTodoItem({ text }));
-    dispatch(editTodo(id));
   };
-  console.log(editable, "!!!!!!!!!!!!");
+
+  const handleEditTodo = (e) => {
+    e.preventDefault(e);
+    dispatch(updateTodo(editable, text));
+    setEditable("");
+    dispatch(changeTodoItem({text:""}));
+  };
+
   const handleChangeTodo = (e) => {
-    if (!editable.isEdit){
-dispatch(changeTodoItem({ text: e.target.value }));
-    } else{
-      const updatedTodoList= todoList.map((val)=>{
-          if(val.id==editable.id){
-            return{
-              ...val,
-              text:e.target.value
-            }
-          }else{
-            return val
-          }
-      })
-   dispatch(addTodo({ id: Math.random(), text }));
-   dispatch(changeTodoItem({ text: "" }));
-    }
+    dispatch(changeTodoItem({ text: e.target.value }));
   };
+
   return (
     <>
-      <h1>TodoApp Using Redux</h1>
       <div className="container">
-        <form onSubmit={(e)=>handleAddTodo(e)}>
-
-        <input
-          type="text"
-          className="inputTodo"
-          value={text}
-          placeholder="Enter Todo......"
-          onChange={(e) => handleChangeTodo(e)}
-          />
-        <button className="inputBtn" onClick={handleAddTodo}>
-          <i className="material-icons">add</i>
-        </button>
-          </form>
+        <h1 className="todoHeading">TodoList App</h1>
+        {editable ? (
+          <>
+            <form className="listForm" onSubmit={handleEditTodo}>
+              <input
+                type="text"
+                name="title"
+                value={text}
+                className="form-control"
+                placeholder="Enter todoName...."
+                onChange={(e) => handleChangeTodo(e)}
+              />
+              <div className="todoCreate">
+                <button className="editButton" type="submit">
+                  EditTodo
+                </button>
+              </div>
+            </form>
+          </>
+        ) : (
+          <>
+            <form className="listForm" onSubmit={handleAddTodo}>
+              <input
+                type="text"
+                name="title"
+                value={text}
+                className="form-control"
+                placeholder="Enter todoName...."
+                onChange={(e) => handleChangeTodo(e)}
+              />
+              <div className="todoCreate">
+                <button className="editButton" type="submit">
+                  CreateTodo
+                </button>
+              </div>
+            </form>
+          </>
+        )}
       </div>
 
       <div className="showItem">
-        <div className="eachItem">
-          {todoList.map((val) => {
-            return (
-              <div className="showTodo">
-                <input value={val.text} className="showInput" />
+        {todoList.map((val) => {
+          return (
+            <div className="showTodo">
+              <input value={val.text} className="showInput" />
 
-                <button
-                  className="inputBtn"
-                  onClick={() => handleEdit(val.id, val.text)}
-                >
-                  <i className="material-icons">edit</i>
-                </button>
+              <button
+                className="inputBtn"
+                onClick={() => handleEdit(val.id, val.text)}
+              >
+                <i className="material-icons">edit</i>
+              </button>
 
-                <button
-                  className="inputBtn"
-                  onClick={() => dispatch(deleteTodo(val.id))}
-                >
-                  <i className="material-icons">delete</i>
-                </button>
-              </div>
-            );
-          })}
-        </div>
+              <button
+                className="inputBtn"
+                onClick={() => dispatch(deleteTodo(val.id))}
+              >
+                <i className="material-icons">delete</i>
+              </button>
+            </div>
+          );
+        })}
       </div>
     </>
   );

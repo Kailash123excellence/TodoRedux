@@ -1,4 +1,9 @@
-import { ADD_TODO, CHANGE_TODO, DELETE_TODO, EDIT_TODO , UPDATE_TODO } from "./actionTypes";
+import { ADD_TODO,
+   CHANGE_TODO, DELETE_TODO, 
+   EDIT_TODO , 
+   UPDATE_TODO,
+  MARK_COMPLETED,
+CLEAR_ALL_TODO } from "./actionTypes";
 
 export const changeTodoItem = ({ text }) => {
   return {
@@ -21,21 +26,33 @@ export const deleteTodo = (id) => {
   };
 };
 
-export const editTodo = (id) => {
+export const editTodo = (id,text) => {
   return {
     type: EDIT_TODO,
-    payload: {
-      id: id,
+    payload:{
+      id:id,
+      text:text
     },
+    isEdit:false,
   };
 };
 
 
-export const updateTodo=()=>{
+export const updateTodo=(id,text)=>{
   return{
     type: UPDATE_TODO,
     payload:{
-      
+    todoId:id,
+    todoTitle:text,
   } 
  }
+}
+
+export const markCompleted=(id)=>{
+return {
+  type:MARK_COMPLETED,
+  payload:{
+    selectedTodoId:id
+  }
+}
 }
