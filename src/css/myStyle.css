@@ -1,0 +1,51 @@
+.todoLabel{
+  display: flex;
+  
+}
+
+.container{
+  border:2px solid rgb(238, 227, 227);
+  /* border: none; */
+  width: 300px;
+  background-color: aquamarine;
+  margin: auto;
+}
+.todoHeading{
+text-align: center;
+font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.listForm{
+  display: flex;
+  width: 100%;
+  margin: auto;
+}
+
+.showItem{
+  border:2px solid rgb(242, 240, 240);
+  width: 300px;
+  margin: auto;
+  background-color: rgba(154, 119, 73, 0.482);
+}
+
+.eachItem{
+  display: flex;
+}
+.inputData{
+  width: 20%;
+}
+.showTodo{
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+}
+
+
+.eachItem{
+  display: inline;
+
+}
+
+.inputTodo{
+  width: 200px;
+  height: 30px;
+}
